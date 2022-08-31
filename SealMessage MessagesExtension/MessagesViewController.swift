@@ -37,7 +37,7 @@ class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
     private var conversation: MSConversation? {
         didSet {
             if let conversation = conversation {
-                model = getModelMesage(from: conversation) ?? ModelSealMessage()
+                model = MessagesManager.newModelFromMessage(from: conversation) ?? ModelSealMessage()
             }
         }
     }
@@ -93,7 +93,7 @@ class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
     
     @IBAction func sendButtonPress() {
         
-        guard let msMessage = composeMessage(with: model) else {return}
+        guard let msMessage = MessagesManager.composeMessage(with: model) else {return}
         guard let conversation = activeConversation else {fatalError("Нет активного диалога!")}
         conversation.insert(msMessage) { error in
             if let error = error {
@@ -107,82 +107,21 @@ class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
 //MARK: Logic
 extension MessagesViewController {
     
-    private func getModelMesage(from conversation: MSConversation) -> ModelSealMessage? {
+    private func getStringCondition() -> String {
+        
+        var stringCondition = ""
     
-        guard let msMessage = conversation.selectedMessage else {return nil}
-        
-        guard let url = msMessage.url else {return nil}
-        
-        guard let urlComponents = NSURLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
-                
-        guard let queryItems = urlComponents.queryItems else { return nil }
-        
-        var modelFromMessage = newModel(from: queryItems)
-        
-        modelFromMessage.didSend = true
-        
-        return modelFromMessage
-    }
-    
-    private func newModel(from queryItems: [URLQueryItem]) -> ModelSealMessage {
-        
-        var modelFromMessage = ModelSealMessage()
-        
-        let queryItems = queryItems.filter { queryItem in
-            queryItem.value != nil
+        if let dateCondition = model.openDate {
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .long
+            dateFormatter.timeStyle = .short
+            dateFormatter.doesRelativeDateFormatting = true
+            let date = dateFormatter.string(from: dateCondition)
+            stringCondition = "Открыть не ранее \(date)"
         }
         
-        queryItems.forEach { queryItem in
-            switch queryItem.name {
-            case "message":
-                modelFromMessage.message = queryItem.value!
-            case "date":
-                if let timeInterval = Double(queryItem.value!) {
-                    modelFromMessage.openDate = Date(timeIntervalSince1970: timeInterval)
-                }
-            default:
-                break
-            }
-        }
-     
-        return modelFromMessage
-    }
-    
-    private func composeMessage(with model: ModelSealMessage, layoutImg: UIImage? = nil, session: MSSession? = nil) -> MSMessage? {
-        
-        var components = URLComponents()
-        
-        var queryItems = [URLQueryItem]()
-        
-        queryItems.append(URLQueryItem(name: "message", value: model.message))
-        
-        if let date = model.openDate {
-            queryItems.append(URLQueryItem(name: "date", value: String(date.timeIntervalSince1970)))
-        }
-        
-        let layout = MSMessageTemplateLayout()
-        
-//        guard let image = layoutImg else { return nil }
-//        layout.image = image
-        layout.caption = "Запечатанное сообщение"
-        
-        components.queryItems = queryItems
-        
-        let message = MSMessage(session: session ?? MSSession())
-        
-//        if let conversation = activeConversation, let msg = conversation.selectedMessage{
-//            if msg.senderParticipantIdentifier == conversation.localParticipantIdentifier {
-//                layout.caption =  "$\(msg.senderParticipantIdentifier.uuidString) rated it \(ratedItem.rating1!)"
-//            }
-//            else{
-//                layout.caption =  "$\(msg.senderParticipantIdentifier.uuidString) rated it \(ratedItem.rating2!)"
-//            }
-//        }
-    
-        message.url = components.url ?? URL(string: "")
-        message.layout = layout
-
-        return message
+        return stringCondition
     }
     
     @objc private func updateNotification(withNotification notification: Notification) {
@@ -291,7 +230,6 @@ extension MessagesViewController {
     
     
     private func setPlaceholder() {
-        
         if messageTextView.text.isEmpty {
             messageTextView.text = "Введите сообщение"
             messageTextView.textColor = .lightGray
@@ -311,23 +249,6 @@ extension MessagesViewController {
     
     @objc private func doneButtonPressed() {
         view.endEditing(true)
-    }
-    
-    private func getStringCondition() -> String {
-        
-        var stringCondition = ""
-    
-        if let dateCondition = model.openDate {
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .long
-            dateFormatter.timeStyle = .short
-            dateFormatter.doesRelativeDateFormatting = true
-            let date = dateFormatter.string(from: dateCondition)
-            stringCondition = "Открыть не ранее \(date)"
-        }
-        
-        return stringCondition
     }
 }
 
@@ -383,9 +304,7 @@ extension MessagesViewController: UIPageViewControllerDelegate, UIPageViewContro
             return pagesViewControllers[index]
             
         }
-        
         return nil
-        
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -401,9 +320,7 @@ extension MessagesViewController: UIPageViewControllerDelegate, UIPageViewContro
             index += 1
             
             return pagesViewControllers[index]
-            
         }
-        
         return nil
     }
 }
