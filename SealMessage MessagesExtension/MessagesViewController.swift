@@ -18,12 +18,12 @@ class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
     
     private var isOversized = false {
         didSet{
-            guard oldValue != isOversized else {
-                return
-            }
-            messageTextView.setNeedsUpdateConstraints()
-            messageTextView.isScrollEnabled = isOversized
-            heightConstraint.isActive = isOversized
+//            guard oldValue != isOversized else {
+//                return
+//            }
+//            messageTextView.setNeedsUpdateConstraints()
+//            messageTextView.isScrollEnabled = isOversized
+//            heightConstraint.isActive = isOversized
         }
     }
     private let maxHeight: CGFloat = 100
@@ -60,6 +60,8 @@ class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
         self.conversation = conversation
+        
+        presentViewController(for: conversation, with: presentationStyle)
     }
     
     override func didResignActive(with conversation: MSConversation) {
@@ -213,8 +215,8 @@ extension MessagesViewController {
     
     private func setupUI() {
         
-        heightConstraint.constant = maxHeight
-        heightConstraint.isActive = false
+//        heightConstraint.constant = maxHeight
+//        heightConstraint.isActive = false
         
         messageTextView.layer.borderWidth = 0.5
         messageTextView.layer.cornerRadius = 6

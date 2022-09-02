@@ -11,6 +11,7 @@
 		E122D9A028BDE1600042FD35 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D99F28BDE1600042FD35 /* PageViewController.swift */; };
 		E122D9A228BDE1950042FD35 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D9A128BDE1950042FD35 /* MapViewController.swift */; };
 		E122D9A628BFAD370042FD35 /* MessagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D9A528BFAD370042FD35 /* MessagesManager.swift */; };
+		E122D9AA28C1D5610042FD35 /* CompactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D9A928C1D5610042FD35 /* CompactViewController.swift */; };
 		E17EE39928BA1B2500FDDA58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E17EE39828BA1B2500FDDA58 /* Assets.xcassets */; };
 		E17EE39F28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E17EE39E28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E17EE3A428BA1B2500FDDA58 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17EE3A328BA1B2500FDDA58 /* Messages.framework */; };
@@ -49,6 +50,7 @@
 		E122D99F28BDE1600042FD35 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		E122D9A128BDE1950042FD35 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		E122D9A528BFAD370042FD35 /* MessagesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesManager.swift; sourceTree = "<group>"; };
+		E122D9A928C1D5610042FD35 /* CompactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactViewController.swift; sourceTree = "<group>"; };
 		E17EE39528BA1B2100FDDA58 /* SealMessage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SealMessage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E17EE39828BA1B2500FDDA58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E17EE39E28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SealMessage MessagesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +131,7 @@
 				E122D9A428BFACE40042FD35 /* Helper */,
 				E122D9A328BFACD70042FD35 /* Model */,
 				E17EE3A628BA1B2600FDDA58 /* MessagesViewController.swift */,
+				E122D9A928C1D5610042FD35 /* CompactViewController.swift */,
 				E122D99F28BDE1600042FD35 /* PageViewController.swift */,
 				E122D99D28BDE10B0042FD35 /* DateViewController.swift */,
 				E122D9A128BDE1950042FD35 /* MapViewController.swift */,
@@ -238,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E122D9AA28C1D5610042FD35 /* CompactViewController.swift in Sources */,
 				E1820AF028BC855D003A6701 /* ModelSealMessage.swift in Sources */,
 				E122D99E28BDE10B0042FD35 /* DateViewController.swift in Sources */,
 				E17EE3A728BA1B2600FDDA58 /* MessagesViewController.swift in Sources */,
