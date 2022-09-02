@@ -8,321 +8,123 @@
 import UIKit
 import Messages
 
+protocol MessagesViewControllerDelegate {
+    func sendMessage(from controller: ExpandedViewController)
+}
+
 class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
-    
-    @IBOutlet var heightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var messageTextView: UITextView!
-    @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var conditionLabel: UILabel!
-    @IBOutlet weak var sendButton: UIButton!
-    
-    private var isOversized = false {
-        didSet{
-//            guard oldValue != isOversized else {
-//                return
-//            }
-//            messageTextView.setNeedsUpdateConstraints()
-//            messageTextView.isScrollEnabled = isOversized
-//            heightConstraint.isActive = isOversized
-        }
-    }
-    private let maxHeight: CGFloat = 100
-    
-    private var model =  ModelSealMessage() {
-        didSet {
-            updateUI()
-        }
-    }
-    
-    private var conversation: MSConversation? {
-        didSet {
-            if let conversation = conversation {
-                model = MessagesManager.newModelFromMessage(from: conversation) ?? ModelSealMessage()
-            }
-        }
-    }
-    
-    private var currentViewControllerIndex = 0
-    private var pagesViewControllers: [UIViewController]!
-        
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-        setupPageViewController()
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateNotification(withNotification:)),
-            name: NSNotification.Name(rawValue: "main view need updated"),
-            object: nil)
-    }
     
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
-        self.conversation = conversation
-        
-        presentViewController(for: conversation, with: presentationStyle)
-    }
-    
-    override func didResignActive(with conversation: MSConversation) {
-        self.conversation = nil
+        if presentationStyle == .compact {
+            requestPresentationStyle(.expanded)
+        } else {
+            presentViewController(for: conversation, with: presentationStyle)
+        }
     }
    
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
-        // Called before the extension transitions to a new presentation style.
-    
-        // Use this method to prepare for the change in presentation style.
+        removeAllChildViewControllers()
     }
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
-//        guard let activeView = activeFieldAfterExpanded else {return}
-//        activeView.becomeFirstResponder()
-//        activeFieldAfterExpanded = nil
-        // Called after the extension transitions to a new presentation style.
-    
-        // Use this method to finalize any behaviors associated with the change in presentation style.
+        guard let conversation = activeConversation else { fatalError("Expected an active converstation") }
+        presentViewController(for: conversation, with: presentationStyle)
     }
+    
+    fileprivate func composeMessage(with model: ModelSealMessage, session: MSSession? = nil) -> MSMessage {
+        
+        let modelMessage = ModelMessage(modelMessage: model)
+        
+        var components = URLComponents()
+        components.queryItems = modelMessage.queryItems
+        
+        let layout = MSMessageTemplateLayout()
+        layout.image = modelMessage.image
+        layout.caption = modelMessage.caption
+        
+        let message = MSMessage(session: session ?? MSSession())
+        
+        guard let url = components.url else {fatalError("Не удалось сформировать URL для отправки сообщения")}
+        message.url = url
+        message.layout = layout
+        
+        return message
+    }
+}
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super .touchesBegan(touches, with: event)
+extension MessagesViewController {
+    
+    private func presentViewController(for conversation: MSConversation, with presentationStyle: MSMessagesAppPresentationStyle) {
+
+        removeAllChildViewControllers()
         
-        if presentationStyle == .compact {
-            requestPresentationStyle(.expanded)
-        }
+        let controller: UIViewController
+//        if presentationStyle == .compact {
+//            requestPresentationStyle(.expanded)
+////            controller = instantiateCompactVC()
+//        }
+            var model = ModelSealMessage(message: conversation.selectedMessage) ?? ModelSealMessage()
+            
+            if let msg = conversation.selectedMessage{
+                model.senderIsLocal = msg.senderParticipantIdentifier == conversation.localParticipantIdentifier
+            }
         
-        view.endEditing(true)
+            controller = instantiateExpandedVC(with: model)
+        
+
+        addChild(controller)
+        controller.view.frame = view.bounds
+        controller.view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(controller.view)
+        
+        NSLayoutConstraint.activate([
+            controller.view.leftAnchor.constraint(equalTo: view.leftAnchor),
+            controller.view.rightAnchor.constraint(equalTo: view.rightAnchor),
+            controller.view.topAnchor.constraint(equalTo: view.topAnchor),
+            controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        
+        controller.didMove(toParent: self)
     }
     
-    @IBAction func sendButtonPress() {
+    private func instantiateCompactVC() -> UIViewController {
+
+        guard let controller = storyboard?.instantiateViewController(withIdentifier: String(describing: CompactViewController.self)) as? CompactViewController else {fatalError("Unable to instantiate an CompactViewController from the storyboard")}
+
         
-        guard let msMessage = MessagesManager.composeMessage(with: model) else {return}
-        guard let conversation = activeConversation else {fatalError("Нет активного диалога!")}
-        conversation.insert(msMessage) { error in
-            if let error = error {
-                fatalError(error.localizedDescription)                
+        controller.delegate = self
+        
+        return controller
+    }
+    
+    private func instantiateExpandedVC(with model: ModelSealMessage) -> UIViewController {
+        
+        guard let controller = storyboard?.instantiateViewController(withIdentifier: String(describing: ExpandedViewController.self)) as? ExpandedViewController else {fatalError("Unable to instantiate an ExpandedViewController from the storyboard")}
+        
+        controller.delegate = self
+        controller.model = model
+        
+        
+        return controller
+    }
+}
+
+extension MessagesViewController: MessagesViewControllerDelegate {
+    
+    func sendMessage(from controller: ExpandedViewController) {
+            
+        guard let conversation = activeConversation else { fatalError("Expected a conversation") }
+        
+        guard let model = controller.model else { fatalError("Expected the controller to be displaying an model message") }
+
+        let message = composeMessage(with: model, session: conversation.selectedMessage?.session)
+
+            conversation.insert(message) { error in
+                if error != nil {
+                    fatalError("Can't insert message!")
+                }
             }
-        }
         dismiss()
-    }
-}
-
-//MARK: Logic
-extension MessagesViewController {
-    
-    private func getStringCondition() -> String {
-        
-        var stringCondition = ""
-    
-        if let dateCondition = model.openDate {
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .long
-            dateFormatter.timeStyle = .short
-            dateFormatter.doesRelativeDateFormatting = true
-            let date = dateFormatter.string(from: dateCondition)
-            stringCondition = "Открыть не ранее \(date)"
-        }
-        
-        return stringCondition
-    }
-    
-    @objc private func updateNotification(withNotification notification: Notification) {
-        guard
-            let userInfo = notification.userInfo,
-            let modelFromNotification = userInfo["model"] as? ModelSealMessage
-            else { fatalError() }
-        
-        model = modelFromNotification
-        updateUI()
-    }
-}
-
-// MARK: UI
-extension MessagesViewController {
-    
-    private func setupPageViewController() {
-        
-        setPagesViewControllers()
-        
-        guard let pageViewController = storyboard?.instantiateViewController(withIdentifier: String(describing: PageViewController.self)) as? PageViewController else {return}
-        
-        pageViewController.delegate = self
-        pageViewController.dataSource = self
-        
-        addChild(pageViewController)
-        pageViewController.didMove(toParent: self)
-        
-        pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(pageViewController.view)
-        
-        pageViewController.view.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        pageViewController.view.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        pageViewController.view.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        pageViewController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        
-        pageViewController.setViewControllers([pagesViewControllers.first!], direction: .forward, animated: true)
-                
-    }
-    
-    private func setPagesViewControllers() {
-        var controllers =  [childrenMessageVC]()
-        
-        if let dateViewController = storyboard?.instantiateViewController(withIdentifier: String(describing: DateViewController.self)) as? childrenMessageVC {
-            controllers.append(dateViewController)
-            dateViewController.model = model
-        }
-        
-        if let mapViewController = storyboard?.instantiateViewController(withIdentifier: String(describing: MapViewController.self)) as? childrenMessageVC {
-            controllers.append(mapViewController)
-            mapViewController.model = model
-        }
-        
-        pagesViewControllers =  controllers
-    }
-    
-    private func updateUI() {
-        
-        messageTextView.text = model.message
-        messageTextView.isEditable = !model.didSend
-        sendButton.isEnabled = !messageTextView.text.isEmpty
-
-        setPlaceholder()
-        
-        conditionLabel.text = getStringCondition()
-        
-        var thisIsSender = true
-
-        if let conversation = conversation, conversation.selectedMessage != nil {
-            
-            let localParticipantIdentifier = conversation.localParticipantIdentifier
-            thisIsSender = conversation.selectedMessage!.senderParticipantIdentifier == localParticipantIdentifier
-            print("local \(localParticipantIdentifier)")
-            print("sender \(conversation.selectedMessage!.senderParticipantIdentifier)")
-            print(activeConversation)
-        }
-        messageTextView.isSecureTextEntry = !thisIsSender
-        
-        if !thisIsSender {
-            messageTextView.layer.borderColor = UIColor.red.cgColor
-        }
-        
-        NotificationCenter.default.post(
-            name: NSNotification.Name("model updated"),
-            object: self,
-            userInfo: ["model": model]
-        )
-    }
-    
-    private func setupUI() {
-        
-//        heightConstraint.constant = maxHeight
-//        heightConstraint.isActive = false
-        
-        messageTextView.layer.borderWidth = 0.5
-        messageTextView.layer.cornerRadius = 6
-        messageTextView.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
-        messageTextView.isScrollEnabled = false
-        messageTextView.backgroundColor = .white
-        messageTextView.clipsToBounds = true
-        
-        setPlaceholder()
-        addCustomToolBar(for: messageTextView)
-        conditionLabel.text = ""
-    }
-    
-    
-    private func setPlaceholder() {
-        if messageTextView.text.isEmpty {
-            messageTextView.text = "Введите сообщение"
-            messageTextView.textColor = .lightGray
-        }
-    }
-    
-    private func addCustomToolBar(for textView: UITextView) {
-        
-        let customToolBar = UIToolbar()
-        let doneButton = UIBarButtonItem(title: "Ввод", style: .plain, target: self, action: #selector(doneButtonPressed))
-        let flexibleSpace = UIBarButtonItem.flexibleSpace()
-        customToolBar.setItems([flexibleSpace, doneButton], animated: false)
-        customToolBar.sizeToFit()
-        textView.inputAccessoryView = customToolBar
-        
-    }
-    
-    @objc private func doneButtonPressed() {
-        view.endEditing(true)
-    }
-}
-
-
-// MARK: UITextViewDelegate
-extension MessagesViewController {
-    
-    func textViewDidChange(_ textView: UITextView) {
-        isOversized = textView.contentSize.height > maxHeight
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        
-        if textView.textColor == .lightGray {
-            messageTextView.text = nil
-            messageTextView.textColor = .black
-        }
-        if presentationStyle == .compact {
-            requestPresentationStyle(.expanded)
-        }
-        
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        model.message = textView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        updateUI()
-    }
-}
-
-// MARK: PAGE Delegates
-extension MessagesViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
-    
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        pagesViewControllers.count
-    }
-    
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        currentViewControllerIndex
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        
-        if var index = pagesViewControllers.firstIndex(where: {$0 == viewController}) {
-            
-            currentViewControllerIndex = index
-            
-            if index == 0 {
-                return nil
-            }
-            
-            index -= 1
-            
-            return pagesViewControllers[index]
-            
-        }
-        return nil
-    }
-    
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        
-        if var index = pagesViewControllers.firstIndex(where: {$0 == viewController}) {
-            
-            currentViewControllerIndex = index
-            
-            if index == (pagesViewControllers.count - 1) {
-                return nil
-            }
-            
-            index += 1
-            
-            return pagesViewControllers[index]
-        }
-        return nil
     }
 }

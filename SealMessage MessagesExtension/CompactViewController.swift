@@ -8,6 +8,8 @@
 import UIKit
 
 class CompactViewController: UIViewController {
+    
+    var delegate: MessagesViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
