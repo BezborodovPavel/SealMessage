@@ -226,13 +226,47 @@
                     <view key="view" contentMode="scaleToFill" id="LC0-tX-DAg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Введите сообщение" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YQq-0Z-G0Z">
+                                <rect key="frame" x="20" y="60" width="374" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="WLs-vc-1KU"/>
+                                </constraints>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ObA-dk-sSI" id="nfe-ld-zFV"/>
+                                </connections>
+                            </textView>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NY3-gh-BHY">
+                                <rect key="frame" x="298" y="815" width="96" height="31"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Отправить"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Отправить"/>
+                                <connections>
+                                    <action selector="sendButtonPress" destination="ObA-dk-sSI" eventType="touchUpInside" id="hX5-3w-Ub5"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="VtQ-Gf-FQJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="YQq-0Z-G0Z" firstAttribute="leading" secondItem="VtQ-Gf-FQJ" secondAttribute="leading" constant="20" id="40t-5L-NZj"/>
+                            <constraint firstItem="VtQ-Gf-FQJ" firstAttribute="trailing" secondItem="NY3-gh-BHY" secondAttribute="trailing" constant="20" id="8O9-lg-s0U"/>
+                            <constraint firstItem="VtQ-Gf-FQJ" firstAttribute="bottom" secondItem="NY3-gh-BHY" secondAttribute="bottom" constant="16" id="AFJ-bc-yG2"/>
+                            <constraint firstItem="YQq-0Z-G0Z" firstAttribute="top" secondItem="VtQ-Gf-FQJ" secondAttribute="top" constant="16" id="IfH-A8-03o"/>
+                            <constraint firstItem="NY3-gh-BHY" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VtQ-Gf-FQJ" secondAttribute="leading" symbolic="YES" id="Ra2-fF-bfO"/>
+                            <constraint firstItem="VtQ-Gf-FQJ" firstAttribute="trailing" secondItem="YQq-0Z-G0Z" secondAttribute="trailing" constant="20" id="tFt-Qw-rzk"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="messsageTextView" destination="YQq-0Z-G0Z" id="7EM-WH-7Iu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1EH-5g-hqc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-623" y="76"/>
+            <point key="canvasLocation" x="-623.1884057971015" y="75.669642857142847"/>
         </scene>
     </scenes>
     <resources>

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "pngwingOpen618x618-2.png",
+      "filename" : "408.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "pngwingOpen618x618-1.png",
+      "filename" : "412.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "pngwingOpen618x618.png",
+      "filename" : "618.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

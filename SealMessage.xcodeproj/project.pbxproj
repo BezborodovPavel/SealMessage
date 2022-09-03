@@ -14,7 +14,6 @@
 		E122D9AC28C1D6300042FD35 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D9AB28C1D6300042FD35 /* ViewController.swift */; };
 		E122D9AE28C1DEAF0042FD35 /* ExpandedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D9AD28C1DEAF0042FD35 /* ExpandedViewController.swift */; };
 		E122D9B128C222980042FD35 /* ModelMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D9B028C222980042FD35 /* ModelMessage.swift */; };
-		E17EE39928BA1B2500FDDA58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E17EE39828BA1B2500FDDA58 /* Assets.xcassets */; };
 		E17EE39F28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E17EE39E28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E17EE3A428BA1B2500FDDA58 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17EE3A328BA1B2500FDDA58 /* Messages.framework */; };
 		E17EE3A728BA1B2600FDDA58 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17EE3A628BA1B2600FDDA58 /* MessagesViewController.swift */; };
@@ -219,7 +218,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E17EE39928BA1B2500FDDA58 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

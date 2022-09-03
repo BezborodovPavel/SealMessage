@@ -10,6 +10,7 @@ import Messages
 
 protocol MessagesViewControllerDelegate {
     func sendMessage(from controller: ExpandedViewController)
+    func expandedVC()
 }
 
 class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
@@ -17,7 +18,8 @@ class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
         if presentationStyle == .compact {
-            requestPresentationStyle(.expanded)
+//            requestPresentationStyle(.expanded)
+            presentViewController(for: conversation, with: presentationStyle)
         } else {
             presentViewController(for: conversation, with: presentationStyle)
         }
@@ -60,17 +62,18 @@ extension MessagesViewController {
         removeAllChildViewControllers()
         
         let controller: UIViewController
-//        if presentationStyle == .compact {
+        if presentationStyle == .compact {
 //            requestPresentationStyle(.expanded)
-////            controller = instantiateCompactVC()
-//        }
+            controller = instantiateCompactVC()
+        } else {
             var model = ModelSealMessage(message: conversation.selectedMessage) ?? ModelSealMessage()
             
             if let msg = conversation.selectedMessage{
                 model.senderIsLocal = msg.senderParticipantIdentifier == conversation.localParticipantIdentifier
             }
-        
             controller = instantiateExpandedVC(with: model)
+        }
+        
         
 
         addChild(controller)
@@ -126,5 +129,9 @@ extension MessagesViewController: MessagesViewControllerDelegate {
                 }
             }
         dismiss()
+    }
+    
+    func expandedVC() {
+        requestPresentationStyle(.expanded)
     }
 }
