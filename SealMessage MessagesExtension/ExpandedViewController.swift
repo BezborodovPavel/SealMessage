@@ -25,7 +25,7 @@ class ExpandedViewController: UIViewController, UITextViewDelegate {
         setupUI()
         updateUI()
         setupPageViewController()
-        
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(updateNotification(withNotification:)),
@@ -39,8 +39,7 @@ class ExpandedViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func sendButtonPress() {
-        model.didSend = true
-        delegate?.sendMessage(from: self)
+        delegate?.sendMessage(from: self, needSend: !model.didSend)
     }
     
     private func getStringCondition() -> String {
@@ -50,14 +49,28 @@ class ExpandedViewController: UIViewController, UITextViewDelegate {
         if let dateCondition = model.openDate {
             
             let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "ru_RU")
             dateFormatter.dateStyle = .long
             dateFormatter.timeStyle = .short
             dateFormatter.doesRelativeDateFormatting = true
             let date = dateFormatter.string(from: dateCondition)
-            stringCondition = "Открыть не ранее \(date)"
+            stringCondition = "Открыть \(date)"
         }
         
         return stringCondition
+    }
+    
+    @objc private func coverImageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        guard let tappedImage = tapGestureRecognizer.view as? UIImageView else {return}
+        
+        UIView.animate(withDuration: 0.8, delay: 0) {
+            tappedImage.alpha = 0
+            self.messageTextView.isSelectable = true
+       } completion: { _ in
+            self.model.open = true
+            tappedImage.removeFromSuperview()
+        }
     }
     
     @objc private func updateNotification(withNotification notification: Notification) {
@@ -117,17 +130,10 @@ extension ExpandedViewController {
     private func updateUI() {
         
         messageTextView.text = model.message
-        messageTextView.isEditable = !model.didSend
         sendButton.isEnabled = !messageTextView.text.isEmpty
-
         setPlaceholder()
-        
         conditionLabel.text = getStringCondition()
-       
-        if !model.senderIsLocal {
-            messageTextView.layer.borderColor = UIColor.red.cgColor
-        }
-        
+
         NotificationCenter.default.post(
             name: NSNotification.Name("model updated"),
             object: self,
@@ -137,12 +143,14 @@ extension ExpandedViewController {
     
     private func setupUI() {
         
-//        messageTextView.layer.borderWidth = 0.5
-//        messageTextView.layer.cornerRadius = 6
-//        messageTextView.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
+        messageTextView.isEditable = !model.didSend
         messageTextView.isScrollEnabled = false
         messageTextView.backgroundColor = .white
         messageTextView.clipsToBounds = true
+        
+        if !textIsVisible() {
+            messageTextView.superview?.addSubview(coverImage(lock: !conditionExecute()))
+        }
         
         addCustomToolBar(for: messageTextView)
         
@@ -172,6 +180,40 @@ extension ExpandedViewController {
     
     @objc private func doneButtonPressed() {
         view.endEditing(true)
+    }
+    
+    private func conditionExecute() -> Bool {
+        
+        if let openDate = model.openDate {
+            if openDate > Date.now {return false}
+        }
+            
+        return true
+    }
+    
+    private func textIsVisible() -> Bool {
+        return model.senderIsLocal || model.open
+    }
+    
+    private func coverImage(lock: Bool) -> UIImageView {
+      
+        let img = UIImageView(frame: CGRect(
+            origin: messageTextView.bounds.origin,
+            size: CGSize(
+                width: messageTextView.bounds.width,
+                height: messageTextView.bounds.height * 0.9)))
+        img.image = UIImage(systemName: lock ? "lock" : "lock.open")!
+        img.tintColor = lock ? .lightGray : .green
+        img.contentMode = .scaleAspectFit
+        img.backgroundColor = .white
+        
+        if !lock {
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(coverImageTapped(tapGestureRecognizer:)))
+            img.isUserInteractionEnabled = true
+            img.addGestureRecognizer(tapGestureRecognizer)
+        }
+
+        return img
     }
 }
 
@@ -208,11 +250,6 @@ extension ExpandedViewController: UIPageViewControllerDelegate, UIPageViewContro
         if var index = pagesViewControllers.firstIndex(where: {$0 == viewController}), index != 0 {
             
             currentViewControllerIndex = index
-            
-//            if index == 0 {
-//                return nil
-//            }
-            
             index -= 1
             return pagesViewControllers[index]
             
@@ -224,13 +261,7 @@ extension ExpandedViewController: UIPageViewControllerDelegate, UIPageViewContro
         
         if var index = pagesViewControllers.firstIndex(where: {$0 == viewController}),
            index != (pagesViewControllers.count - 1) {
-            
             currentViewControllerIndex = index
-            
-            //            if index == (pagesViewControllers.count - 1) {
-            //                return nil
-            //            }
-            
             index += 1
             return pagesViewControllers[index]
         }

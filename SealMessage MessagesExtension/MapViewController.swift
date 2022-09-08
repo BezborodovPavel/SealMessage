@@ -8,9 +8,10 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, childrenMessageVC {
+class MapViewController: UIViewController, childrenMessageVC, CLLocationManagerDelegate {
     
     var model: ModelSealMessage!
+    var locationManager: CLLocationManager!
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var onOffSwitch: UISwitch!
@@ -18,6 +19,10 @@ class MapViewController: UIViewController, childrenMessageVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        DispatchQueue.main.async {
+            self.locationManager = CLLocationManager()
+//        }
         update()
 
         NotificationCenter.default.addObserver(
@@ -27,8 +32,17 @@ class MapViewController: UIViewController, childrenMessageVC {
             object: nil)
         // Do any additional setup after loading the view.
     }
+//
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        checkLocationEnable()
+//    }
     
     @IBAction func onOffSwitchChanged() {
+        
+        if onOffSwitch.isOn, !checkLocationEnable() {
+            onOffSwitch.isOn = false
+        }
         update()
     }
  
@@ -65,4 +79,62 @@ class MapViewController: UIViewController, childrenMessageVC {
             userInfo: ["model": model!]
         )
     }
+    
+    func checkLocationEnable() -> Bool {
+        if CLLocationManager.locationServicesEnabled(), CLLocationManager.significantLocationChangeMonitoringAvailable() {
+            setupLocationManager()
+            return true
+        } else {
+            showAlert(with: "Служба геолокации недоступна")
+            return false
+        }
+    }
+
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.startUpdatingLocation()
+    }
+    
+    private func showAlert(with title: String) {
+        
+        let alert = UIAlertController(title: title, message: "Вы можете включить её в настройках", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion:nil)
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last?.coordinate {
+            let region = MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.5))
+            mapView.setRegion(region, animated: true)
+        }
+        locationManager.stopUpdatingLocation()
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+//        DispatchQueue.main.async {
+
+            switch manager.authorizationStatus {
+            case .notDetermined:
+                self.locationManager.requestWhenInUseAuthorization()
+            case .restricted:
+                break
+            case .denied:
+                self.showAlert(with: "Вы запретили использование местоположения!")
+            case .authorizedAlways:
+                self.mapView.showsUserLocation = true
+                self.locationManager.startUpdatingLocation()
+            case .authorizedWhenInUse:
+                self.mapView.showsUserLocation = true
+                self.locationManager.startUpdatingLocation()
+            @unknown default:
+                break
+            }
+//        }
+    }
 }
+

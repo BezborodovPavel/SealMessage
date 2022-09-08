@@ -9,7 +9,7 @@ import UIKit
 import Messages
 
 protocol MessagesViewControllerDelegate {
-    func sendMessage(from controller: ExpandedViewController)
+    func sendMessage(from controller: ExpandedViewController, needSend: Bool)
     func expandedVC()
 }
 
@@ -18,7 +18,6 @@ class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
         if presentationStyle == .compact {
-//            requestPresentationStyle(.expanded)
             presentViewController(for: conversation, with: presentationStyle)
         } else {
             presentViewController(for: conversation, with: presentationStyle)
@@ -63,7 +62,6 @@ extension MessagesViewController {
         
         let controller: UIViewController
         if presentationStyle == .compact {
-//            requestPresentationStyle(.expanded)
             controller = instantiateCompactVC()
         } else {
             var model = ModelSealMessage(message: conversation.selectedMessage) ?? ModelSealMessage()
@@ -73,9 +71,7 @@ extension MessagesViewController {
             }
             controller = instantiateExpandedVC(with: model)
         }
-        
-        
-
+ 
         addChild(controller)
         controller.view.frame = view.bounds
         controller.view.translatesAutoresizingMaskIntoConstraints = false
@@ -115,19 +111,25 @@ extension MessagesViewController {
 
 extension MessagesViewController: MessagesViewControllerDelegate {
     
-    func sendMessage(from controller: ExpandedViewController) {
-            
-        guard let conversation = activeConversation else { fatalError("Expected a conversation") }
+    func sendMessage(from controller: ExpandedViewController, needSend: Bool) {
         
-        guard let model = controller.model else { fatalError("Expected the controller to be displaying an model message") }
-
-        let message = composeMessage(with: model, session: conversation.selectedMessage?.session)
-
+        if needSend {
+            
+            guard let conversation = activeConversation else { fatalError("Expected a conversation") }
+            
+            guard var model = controller.model else { fatalError("Expected the controller to be displaying an model message") }
+            
+            model.didSend = true
+            
+            let message = composeMessage(with: model, session: conversation.selectedMessage?.session)
+            
             conversation.insert(message) { error in
                 if error != nil {
                     fatalError("Can't insert message!")
                 }
             }
+        }
+        
         dismiss()
     }
     

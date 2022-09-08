@@ -34,8 +34,6 @@ class DateViewController: UIViewController, childrenMessageVC  {
     @IBAction func onOffSwitchChanged() {
         model.openDate = onOffSwitch.isOn ? datePicker.date : nil
         sendNotification()
-//        update()
-//        messageDelegate.changeDateMessage(with: onOffSwitch.isOn ? datePicker.date : nil)
     }
     
     @IBAction func datePickerChanged() {
@@ -57,6 +55,7 @@ class DateViewController: UIViewController, childrenMessageVC  {
         
         onOffSwitch.isEnabled = !model.didSend
         datePicker.date = model.openDate ?? Date.now
+        datePicker.locale = Locale(identifier: "ru_RU")
         datePicker.isEnabled = onOffSwitch.isOn
         titleLabel.alpha = onOffSwitch.isOn ? 1 : 0.5
     }
