@@ -8,24 +8,21 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, childrenMessageVC, CLLocationManagerDelegate, MKMapViewDelegate {
-    
+protocol childrenMapMessageVC: childrenMessageVC {
+    var modelLocation: ModelLocation! {get set}
+}
+
+class MapViewController: UIViewController, childrenMapMessageVC, CLLocationManagerDelegate, MKMapViewDelegate {
+   
+    var modelLocation: ModelLocation!
     var model: ModelSealMessage!
-    var currentLocation: MKCoordinateRegion?
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var onOffSwitch: UISwitch!
     @IBOutlet weak var titleLabel: UILabel!
     
-    private var locationManager: CLLocationManager!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        DispatchQueue.main.async {
-            self.locationManager = CLLocationManager()
-            self.locationManager.delegate = self
-        }
         
         NotificationCenter.default.addObserver(
             self,
@@ -39,12 +36,12 @@ class MapViewController: UIViewController, childrenMessageVC, CLLocationManagerD
     
     @IBAction func onOffSwitchChanged() {
         
-        if onOffSwitch.isOn, !checkLocationEnable() {
+        if onOffSwitch.isOn, !modelLocation.enabled {
             onOffSwitch.isOn = false
         }
         
         if onOffSwitch.isOn {
-            if let region  = currentLocation {
+            if let region  = modelLocation.region {
                 mapView.setRegion(region, animated: true)
                 updateAddresDescription()
             }
@@ -71,13 +68,12 @@ class MapViewController: UIViewController, childrenMessageVC, CLLocationManagerD
     private func setupUI() {
     
         if !model.location.isEmpty() {
-            currentLocation = MKCoordinateRegion(
-                center: CLLocationCoordinate2D(
-                    latitude: model.location.latitude,
-                    longitude: model.location.longitude),
-                latitudinalMeters: 300,
-                longitudinalMeters: 300)
-            mapView.setRegion(currentLocation!, animated: false)
+            modelLocation.currentLocation = CLLocationCoordinate2D(
+                latitude: model.location.latitude,
+                longitude: model.location.longitude)
+            
+            guard let region = modelLocation.region else {return}
+            mapView.setRegion(region, animated: false)
         }
     }
     
@@ -98,23 +94,13 @@ class MapViewController: UIViewController, childrenMessageVC, CLLocationManagerD
         )
     }
 
-    private func showAlert(with title: String) {
-        
-        let alert = UIAlertController(title: title, message: "Вы можете изменить разрешение в настройках", preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true, completion:nil)
-    }
-    
     private func updateAddresDescription() {
         
-        guard let region = currentLocation else {return}
-        let location = CLLocation(latitude: region.center.latitude, longitude: region.center.longitude)
+        guard let location = modelLocation.currentLocation else {return}
+        let newLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
         
         DispatchQueue.global().async { // не уверен что так надо, но при тестировании и проблем с сетью тормозил пользовтальский интерфейс
-            CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) in
+            CLGeocoder().reverseGeocodeLocation(newLocation) { (placemarks, error) in
                 guard error == nil else {
                     return
                 }
@@ -123,8 +109,8 @@ class MapViewController: UIViewController, childrenMessageVC, CLLocationManagerD
                     let description =  "\(firstPlacemark.locality ?? "") \(firstPlacemark.thoroughfare ?? "") \(firstPlacemark.subThoroughfare ?? "")"
                     
                     self.model.location = Location(
-                        latitude: location.coordinate.latitude,
-                        longitude: location.coordinate.longitude,
+                        latitude: newLocation.coordinate.latitude,
+                        longitude: newLocation.coordinate.longitude,
                         description: description)
 
                     self.sendNotification()
@@ -140,54 +126,11 @@ extension MapViewController {
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         
-        currentLocation = mapView.region
+        modelLocation.currentLocation = CLLocationCoordinate2D(
+            latitude: mapView.region.center.latitude,
+            longitude: mapView.region.center.longitude)
+        
         updateAddresDescription()
     }
-}
-
-// MARK: Core Location
-extension MapViewController {
-    
-    private func checkLocationEnable() -> Bool {
-        if CLLocationManager.locationServicesEnabled(), CLLocationManager.significantLocationChangeMonitoringAvailable() {
-            setupLocationManager()
-            return true
-        } else {
-            showAlert(with: "Служба геолокации недоступна")
-            return false
-        }
-    }
-    
-    private func setupLocationManager() {
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.last?.coordinate {
-            if currentLocation == nil {
-                currentLocation = MKCoordinateRegion(center: location, latitudinalMeters: 300, longitudinalMeters: 300)
-                mapView.setRegion(currentLocation!, animated: true)
-            }
-        }
-        locationManager.stopUpdatingLocation()
-    }
-
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .notDetermined:
-            self.locationManager.requestWhenInUseAuthorization()
-        case .restricted:
-            break
-        case .denied:
-            self.showAlert(with: "Вы запретили использование местоположения!")
-        case .authorizedAlways:
-            self.locationManager.startUpdatingLocation()
-        case .authorizedWhenInUse:
-            self.locationManager.startUpdatingLocation()
-        @unknown default:
-            break
-        }
-    }
-    
 }
 

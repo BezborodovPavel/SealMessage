@@ -15,6 +15,10 @@ protocol MessagesViewControllerDelegate {
 
 class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
     
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
         if presentationStyle == .compact {

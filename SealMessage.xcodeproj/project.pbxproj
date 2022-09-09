@@ -14,6 +14,7 @@
 		E122D9AC28C1D6300042FD35 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D9AB28C1D6300042FD35 /* ViewController.swift */; };
 		E122D9AE28C1DEAF0042FD35 /* ExpandedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D9AD28C1DEAF0042FD35 /* ExpandedViewController.swift */; };
 		E122D9B128C222980042FD35 /* ModelMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D9B028C222980042FD35 /* ModelMessage.swift */; };
+		E14575CB28CB34E900A159BB /* ModelLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14575CA28CB34E900A159BB /* ModelLocation.swift */; };
 		E17EE39F28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E17EE39E28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E17EE3A428BA1B2500FDDA58 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17EE3A328BA1B2500FDDA58 /* Messages.framework */; };
 		E17EE3A728BA1B2600FDDA58 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17EE3A628BA1B2600FDDA58 /* MessagesViewController.swift */; };
@@ -54,6 +55,7 @@
 		E122D9AB28C1D6300042FD35 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E122D9AD28C1DEAF0042FD35 /* ExpandedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedViewController.swift; sourceTree = "<group>"; };
 		E122D9B028C222980042FD35 /* ModelMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelMessage.swift; sourceTree = "<group>"; };
+		E14575CA28CB34E900A159BB /* ModelLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLocation.swift; sourceTree = "<group>"; };
 		E17EE39528BA1B2100FDDA58 /* SealMessage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SealMessage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E17EE39828BA1B2500FDDA58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E17EE39E28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SealMessage MessagesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +84,7 @@
 			children = (
 				E1820AEF28BC855D003A6701 /* ModelSealMessage.swift */,
 				E122D9B028C222980042FD35 /* ModelMessage.swift */,
+				E14575CA28CB34E900A159BB /* ModelLocation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				E122D99E28BDE10B0042FD35 /* DateViewController.swift in Sources */,
 				E17EE3A728BA1B2600FDDA58 /* MessagesViewController.swift in Sources */,
 				E122D9A228BDE1950042FD35 /* MapViewController.swift in Sources */,
+				E14575CB28CB34E900A159BB /* ModelLocation.swift in Sources */,
 				E122D9A028BDE1600042FD35 /* PageViewController.swift in Sources */,
 				E122D9B128C222980042FD35 /* ModelMessage.swift in Sources */,
 				E122D9AC28C1D6300042FD35 /* ViewController.swift in Sources */,
@@ -398,8 +402,11 @@
 				DEVELOPMENT_TEAM = TQ8HSFJ569;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SealMessage MessagesExtension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Запечатать сообщение";
+				INFOPLIST_KEY_CFBundleDisplayName = "Запечатано";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для определения вашего местоположения";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для определения вашего местоположения";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для определения вашего местоположения";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -424,8 +431,11 @@
 				DEVELOPMENT_TEAM = TQ8HSFJ569;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SealMessage MessagesExtension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Запечатать сообщение";
+				INFOPLIST_KEY_CFBundleDisplayName = "Запечатано";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для определения вашего местоположения";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для определения вашего местоположения";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для определения вашего местоположения";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

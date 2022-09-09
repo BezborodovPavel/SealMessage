@@ -14,8 +14,8 @@ class PageViewController: UIPageViewController {
         
         let pageControl = UIPageControl.appearance()
 
-        pageControl.pageIndicatorTintColor = .gray
-        pageControl.currentPageIndicatorTintColor = .black
+        pageControl.currentPageIndicatorTintColor = UIColor(displayP3Red: 0.998, green: 0.737, blue: 0.342, alpha: 1)
+        pageControl.pageIndicatorTintColor = UIColor(displayP3Red: 0.998, green: 0.841, blue: 0.603, alpha: 1)
         
     }
 }
