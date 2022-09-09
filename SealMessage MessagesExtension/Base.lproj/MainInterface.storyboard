@@ -51,16 +51,16 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="382" height="503"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Условия" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bLL-J2-5Kx">
-                                                        <rect key="frame" x="0.0" y="0.0" width="382" height="40"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="382" height="60"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="tZZ-QL-VV7"/>
+                                                            <constraint firstAttribute="height" constant="60" id="tZZ-QL-VV7"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3N4-oM-nqo">
-                                                        <rect key="frame" x="0.0" y="40" width="382" height="463"/>
+                                                        <rect key="frame" x="0.0" y="60" width="382" height="443"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="300" id="Oqs-Pr-j8R"/>
                                                         </constraints>
@@ -129,6 +129,7 @@
                             </datePicker>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="JTy-o5-hV5">
                                 <rect key="frame" x="345" y="44" width="51" height="31"/>
+                                <color key="onTintColor" red="0.99828594920000002" green="0.73674923179999996" blue="0.34164190290000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="onOffSwitchChanged" destination="Iqs-Nj-dF5" eventType="valueChanged" id="f4q-HC-JkU"/>
                                 </connections>
@@ -179,11 +180,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dm7-Ao-fiG">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dm7-Ao-fiG">
                                 <rect key="frame" x="0.0" y="83" width="414" height="779"/>
                             </mapView>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uuP-Gm-SYy">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" title="вава" translatesAutoresizingMaskIntoConstraints="NO" id="uuP-Gm-SYy">
                                 <rect key="frame" x="345" y="44" width="51" height="31"/>
+                                <color key="onTintColor" red="0.99828594920000002" green="0.73674923179999996" blue="0.34164190290000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="onOffSwitchChanged" destination="51P-X2-tkD" eventType="valueChanged" id="0Ag-t8-sgB"/>
                                 </connections>
@@ -194,31 +196,31 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Адрес" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUH-Kd-kL9">
-                                <rect key="frame" x="20" y="103" width="414" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mappin.and.ellipse" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="e75-MN-sVq">
+                                <rect key="frame" x="182" y="422.5" width="50" height="50.5"/>
+                                <color key="tintColor" red="0.99828594920000002" green="0.73674923179999996" blue="0.34164190290000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="BNf-BO-lvf"/>
+                                    <constraint firstAttribute="width" constant="50" id="qPb-hF-6BO"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="W2B-ez-Qvz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="bUH-Kd-kL9" firstAttribute="top" secondItem="dm7-Ao-fiG" secondAttribute="top" constant="20" id="7E9-q6-4Wb"/>
+                            <constraint firstItem="e75-MN-sVq" firstAttribute="centerY" secondItem="MuN-84-Pgc" secondAttribute="centerY" id="CrV-MZ-NUz"/>
                             <constraint firstItem="dm7-Ao-fiG" firstAttribute="firstBaseline" secondItem="uuP-Gm-SYy" secondAttribute="baseline" constant="8" symbolType="layoutAnchor" id="DO8-kZ-VNW"/>
                             <constraint firstItem="W2B-ez-Qvz" firstAttribute="trailing" secondItem="uuP-Gm-SYy" secondAttribute="trailing" constant="20" id="FMK-cx-9Ns"/>
                             <constraint firstItem="xRM-8p-EUd" firstAttribute="top" secondItem="W2B-ez-Qvz" secondAttribute="top" id="amm-st-Ulh"/>
-                            <constraint firstItem="bUH-Kd-kL9" firstAttribute="trailing" secondItem="dm7-Ao-fiG" secondAttribute="trailing" constant="20" id="brB-49-8vh"/>
-                            <constraint firstItem="bUH-Kd-kL9" firstAttribute="leading" secondItem="dm7-Ao-fiG" secondAttribute="leading" constant="20" id="fPJ-9o-8sP"/>
                             <constraint firstItem="W2B-ez-Qvz" firstAttribute="trailing" secondItem="dm7-Ao-fiG" secondAttribute="trailing" id="gEr-XL-QMa"/>
                             <constraint firstItem="uuP-Gm-SYy" firstAttribute="top" secondItem="W2B-ez-Qvz" secondAttribute="top" id="ihT-4s-cAX"/>
                             <constraint firstItem="xRM-8p-EUd" firstAttribute="centerX" secondItem="MuN-84-Pgc" secondAttribute="centerX" id="nVI-03-eXp"/>
                             <constraint firstItem="W2B-ez-Qvz" firstAttribute="bottom" secondItem="dm7-Ao-fiG" secondAttribute="bottom" id="pIm-Mu-1Gd"/>
                             <constraint firstItem="dm7-Ao-fiG" firstAttribute="leading" secondItem="W2B-ez-Qvz" secondAttribute="leading" id="vlZ-1s-N11"/>
+                            <constraint firstItem="e75-MN-sVq" firstAttribute="centerX" secondItem="MuN-84-Pgc" secondAttribute="centerX" id="zVo-Ac-tCQ"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="addresLabel" destination="bUH-Kd-kL9" id="ESC-Uc-8i4"/>
                         <outlet property="mapView" destination="dm7-Ao-fiG" id="PSU-Wv-gE3"/>
                         <outlet property="onOffSwitch" destination="uuP-Gm-SYy" id="wpj-w1-ZxA"/>
                         <outlet property="titleLabel" destination="xRM-8p-EUd" id="EzU-VS-a2b"/>
@@ -279,6 +281,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="mappin.and.ellipse" catalog="system" width="118" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

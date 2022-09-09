@@ -45,6 +45,7 @@ class ExpandedViewController: UIViewController, UITextViewDelegate {
     private func getStringCondition() -> String {
         
         var stringCondition = ""
+        var conditions = [String]()
     
         if let dateCondition = model.openDate {
             
@@ -54,7 +55,15 @@ class ExpandedViewController: UIViewController, UITextViewDelegate {
             dateFormatter.timeStyle = .short
             dateFormatter.doesRelativeDateFormatting = true
             let date = dateFormatter.string(from: dateCondition)
-            stringCondition = "Открыть \(date)"
+            conditions.append(date)
+        }
+        
+        if !model.location.isEmpty() {
+            conditions.append("рядом с местом \(model.location.description)")
+        }
+        
+        if !conditions.isEmpty {
+            stringCondition = "Открыть " + conditions.joined(separator: ", ")
         }
         
         return stringCondition
@@ -197,15 +206,21 @@ extension ExpandedViewController {
     
     private func coverImage(lock: Bool) -> UIImageView {
       
-        let img = UIImageView(frame: CGRect(
-            origin: messageTextView.bounds.origin,
-            size: CGSize(
-                width: messageTextView.bounds.width,
-                height: messageTextView.bounds.height * 0.9)))
-        img.image = UIImage(systemName: lock ? "lock" : "lock.open")!
+        let img = UIImageView()
+        img.image = UIImage(named: lock ? "closeMessage" : "openMessage")!
         img.tintColor = lock ? .lightGray : .green
         img.contentMode = .scaleAspectFit
         img.backgroundColor = .white
+        img.translatesAutoresizingMaskIntoConstraints = false
+        
+        messageTextView.superview?.addSubview(img)
+        
+        NSLayoutConstraint.activate([
+            img.centerXAnchor.constraint(equalTo: messageTextView.centerXAnchor),
+            img.centerYAnchor.constraint(equalTo: messageTextView.centerYAnchor),
+            img.widthAnchor.constraint(equalTo: messageTextView.widthAnchor),
+            img.heightAnchor.constraint(equalTo: messageTextView.heightAnchor),
+        ])
         
         if !lock {
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(coverImageTapped(tapGestureRecognizer:)))

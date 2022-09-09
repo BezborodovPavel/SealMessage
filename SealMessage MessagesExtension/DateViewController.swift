@@ -37,8 +37,21 @@ class DateViewController: UIViewController, childrenMessageVC  {
     }
     
     @IBAction func datePickerChanged() {
-        model.openDate = onOffSwitch.isOn ? datePicker.date : nil
+        model.openDate = onOffSwitch.isOn ? roundDate(date: datePicker.date) : nil
+        
         sendNotification()
+    }
+    
+    private func roundDate(date: Date) -> Date {
+        
+        let calendar = Calendar.current
+        
+        var components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+
+        components.second = 0
+        
+        return calendar.date(from: components) ?? date
+        
     }
     
     @objc private func updateNotification(withNotification notification: Notification) {        

@@ -43,6 +43,7 @@ class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
         let layout = MSMessageTemplateLayout()
         layout.image = modelMessage.image
         layout.caption = modelMessage.caption
+        layout.subcaption = modelMessage.subCaption
         
         let message = MSMessage(session: session ?? MSSession())
         
@@ -64,7 +65,7 @@ extension MessagesViewController {
         if presentationStyle == .compact {
             controller = instantiateCompactVC()
         } else {
-            var model = ModelSealMessage(message: conversation.selectedMessage) ?? ModelSealMessage()
+            let model = ModelSealMessage(message: conversation.selectedMessage) ?? ModelSealMessage()
             
             if let msg = conversation.selectedMessage{
                 model.senderIsLocal = msg.senderParticipantIdentifier == conversation.localParticipantIdentifier
@@ -117,7 +118,7 @@ extension MessagesViewController: MessagesViewControllerDelegate {
             
             guard let conversation = activeConversation else { fatalError("Expected a conversation") }
             
-            guard var model = controller.model else { fatalError("Expected the controller to be displaying an model message") }
+            guard let model = controller.model else { fatalError("Expected the controller to be displaying an model message") }
             
             model.didSend = true
             

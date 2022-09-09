@@ -7,19 +7,30 @@
 
 import Foundation
 import Messages
+import CoreLocation
 
-struct ModelSealMessage {
+struct Location {
+    var latitude = 0.0
+    var longitude = 0.0
+    var description = ""
+    
+    func isEmpty() -> Bool {
+        return latitude == 0.0 && longitude == 0.0
+    }
+}
+
+class ModelSealMessage {
     
     var message: String = ""
     var openDate: Date? = nil
-    var location: (Int, Int)? = (latitude: 0, longitude:0)
+    var location = Location()
     var didSend = false
     var open = false
     var senderIsLocal = true
     
-}
-
-extension ModelSealMessage {
+    init() {
+        
+    }
     
     init?(from queryItems: [URLQueryItem]) {
         
@@ -37,6 +48,16 @@ extension ModelSealMessage {
                 if let timeInterval = Double(value) {
                     openDate = Date(timeIntervalSince1970: timeInterval)
                 }
+            case "locationlatitude":
+                if let locationlatitude = Double(value) {
+                    location.latitude = locationlatitude
+                 }
+            case "locationlongitude":
+                if let locationlongitude = Double(value) {
+                    location.longitude = locationlongitude
+                 }
+            case "locationdescription":
+                location.description = value
             case "didSend":
                 if let send = Bool(value) {
                     didSend = send
@@ -50,7 +71,7 @@ extension ModelSealMessage {
         self.openDate = openDate
     }
     
-    init?(message: MSMessage?) {
+    convenience init?(message: MSMessage?) {
         guard let messageURL = message?.url else { return nil }
         guard let urlComponents = NSURLComponents(url: messageURL, resolvingAgainstBaseURL: false) else { return nil }
         guard let queryItems = urlComponents.queryItems else { return nil }

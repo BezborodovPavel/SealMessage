@@ -17,6 +17,5 @@ class PageViewController: UIPageViewController {
         pageControl.pageIndicatorTintColor = .gray
         pageControl.currentPageIndicatorTintColor = .black
         
-        // Do any additional setup after loading the view.
     }
 }

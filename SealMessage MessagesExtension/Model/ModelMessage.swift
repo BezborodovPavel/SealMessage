@@ -19,12 +19,21 @@ struct ModelMessage {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .long
             dateFormatter.timeStyle = .short
-            dateFormatter.doesRelativeDateFormatting = true
+            dateFormatter.locale = Locale(identifier: "ru_RU")
+            dateFormatter.doesRelativeDateFormatting = false
             let date = dateFormatter.string(from: dateForCaption)
             newCaptions.append("Дата вскрытия: \(date)")
         }
         
         return newCaptions.joined(separator: ", ")
+    }
+    
+    var subCaption: String? {
+        if !modelMessage.location.isEmpty() {
+            return modelMessage.location.description
+        } else {
+            return nil
+        }
     }
     
     var image: UIImage {
@@ -43,6 +52,12 @@ struct ModelMessage {
         
         if let date = modelMessage.openDate {
             queryItems.append(URLQueryItem(name: "date", value: String(date.timeIntervalSince1970)))
+        }
+        
+        if !modelMessage.location.isEmpty() {
+            queryItems.append(URLQueryItem(name: "locationlatitude", value: String(modelMessage.location.latitude)))
+            queryItems.append(URLQueryItem(name: "locationlongitude", value: String(modelMessage.location.longitude)))
+            queryItems.append(URLQueryItem(name: "locationdescription", value: String(modelMessage.location.description)))
         }
         
         queryItems.append(URLQueryItem(name: "didSend", value: modelMessage.didSend.description))
