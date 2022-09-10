@@ -89,6 +89,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		E14575CC28CC777C00A159BB /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				E122D9A128BDE1950042FD35 /* MapViewController.swift */,
+				E122D99D28BDE10B0042FD35 /* DateViewController.swift */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
 		E17EE38E28BA1B2100FDDA58 = {
 			isa = PBXGroup;
 			children = (
@@ -127,15 +136,14 @@
 		E17EE3A528BA1B2500FDDA58 /* SealMessage MessagesExtension */ = {
 			isa = PBXGroup;
 			children = (
-				E122D9A328BFACD70042FD35 /* Model */,
 				E17EE3A628BA1B2600FDDA58 /* MessagesViewController.swift */,
 				E122D9A928C1D5610042FD35 /* CompactViewController.swift */,
 				E122D9AD28C1DEAF0042FD35 /* ExpandedViewController.swift */,
-				E122D9AB28C1D6300042FD35 /* ViewController.swift */,
 				E122D99F28BDE1600042FD35 /* PageViewController.swift */,
-				E122D99D28BDE10B0042FD35 /* DateViewController.swift */,
-				E122D9A128BDE1950042FD35 /* MapViewController.swift */,
+				E122D9AB28C1D6300042FD35 /* ViewController.swift */,
 				E17EE3A828BA1B2600FDDA58 /* MainInterface.storyboard */,
+				E122D9A328BFACD70042FD35 /* Model */,
+				E14575CC28CC777C00A159BB /* Pages */,
 				E17EE3AB28BA1B2700FDDA58 /* Assets.xcassets */,
 				E17EE3AD28BA1B2700FDDA58 /* Info.plist */,
 			);
