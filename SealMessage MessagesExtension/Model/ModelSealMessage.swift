@@ -58,6 +58,10 @@ class ModelSealMessage {
                  }
             case "locationdescription":
                 location.description = value
+            case "open":
+                if let didOpen = Bool(value) {
+                    open = didOpen
+                }
             case "didSend":
                 if let send = Bool(value) {
                     didSend = send

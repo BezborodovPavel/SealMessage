@@ -24,9 +24,18 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
     private var pagesViewControllers: [UIViewController]!
     private var locationManager: CLLocationManager!
     private var coverImageView = UIImageView()
-
+    private var modelReceivdedOpened = false
+    private var needSend: Bool {
+        (model.didSend && !model.senderIsLocal && model.open) || !model.didSend
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if model.open {
+            modelReceivdedOpened = true
+        }
+        
         setupUI()
         updateUI()
         setupPageViewController()
@@ -36,7 +45,6 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
             self.locationManager.delegate = self
             self.checkLocationEnable()
         }
-        
 
         NotificationCenter.default.addObserver(
             self,
@@ -51,7 +59,7 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
     }
     
     @IBAction func sendButtonPress() {
-        delegate?.sendMessage(from: self, needSend: !model.didSend)
+        delegate?.sendMessage(from: self, needSend: needSend)
     }
     
     private func getStringCondition() -> String {
@@ -91,6 +99,7 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
        } completion: { _ in
             self.model.open = true
             tappedImage.removeFromSuperview()
+           self.updateUI()
         }
     }
     
@@ -103,6 +112,15 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
         model = modelFromNotification
         updateUI()
     }
+    
+    private func addTimer() {
+        guard let timerDate = model.openDate else {return}
+        let timer = Timer.init(fire: timerDate, interval: 1, repeats: false) { _ in
+            self.updateCoverImage()
+        }
+        
+        RunLoop.current.add(timer, forMode: .default)
+    }
 }
 
 // MARK: UI
@@ -112,8 +130,16 @@ extension ExpandedViewController {
     private func updateUI() {
         
         messageTextView.text = model.message
+        
         sendButton.isEnabled = !messageTextView.text.isEmpty
+        if model.didSend, !model.senderIsLocal, model.open, !modelReceivdedOpened {
+            sendButton.setTitle("Сохранить", for: .normal)
+        } else if model.didSend {
+            sendButton.setTitle("Закрыть", for: .normal)
+        }
+        
         setPlaceholder()
+        
         conditionLabel.text = getStringCondition()
 
         NotificationCenter.default.post(
@@ -129,16 +155,18 @@ extension ExpandedViewController {
         messageTextView.isScrollEnabled = false
         messageTextView.backgroundColor = .white
         messageTextView.clipsToBounds = true
+        messageTextView.layer.borderColor = UIColor(displayP3Red: 0.998, green: 0.737, blue: 0.342, alpha: 1).cgColor
+        messageTextView.layer.borderWidth = 1
         
         updateCoverImage()
 
         addCustomToolBar(for: messageTextView)
         
-        if model.didSend {
-            sendButton.setTitle("Закрыть", for: .normal)
-        }
-        
         conditionLabel.alpha = model.didSend ? 0.5 : 1
+        
+        if !textMustBeVisible(), model.openDate != nil, !conditionExecute() {
+            addTimer()
+        }
     }
     
     private func setPlaceholder() {
@@ -168,19 +196,23 @@ extension ExpandedViewController {
             if openDate > Date.now {return false}
         }
         
-        if !model.location.isEmpty(), let currentLocation = modelLocation.currentLocation {
-            let targetLocation = CLLocation(
-                latitude: model.location.latitude,
-                longitude: model.location.longitude
-            )
-            
-            let currentLocation = CLLocation(
-                latitude: currentLocation.latitude,
-                longitude: currentLocation.longitude)
-  
-            let distance = targetLocation.distance(from: currentLocation)
-            
-            if distance >= 50 {return false}
+        if !model.location.isEmpty() {
+            if let currentLocation = modelLocation.currentLocation {
+                let targetLocation = CLLocation(
+                    latitude: model.location.latitude,
+                    longitude: model.location.longitude
+                )
+                
+                let currentLocation = CLLocation(
+                    latitude: currentLocation.latitude,
+                    longitude: currentLocation.longitude)
+                
+                let distance = targetLocation.distance(from: currentLocation)
+                
+                if distance >= 50 {return false}
+            } else {
+                return false
+            }
         }
         
         return true

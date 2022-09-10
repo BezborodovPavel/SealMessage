@@ -62,6 +62,8 @@ struct ModelMessage {
         
         queryItems.append(URLQueryItem(name: "didSend", value: modelMessage.didSend.description))
         
+        queryItems.append(URLQueryItem(name: "open", value: modelMessage.open.description))
+        
         return queryItems
     }
 }
