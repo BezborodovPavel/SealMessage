@@ -8,7 +8,6 @@
 import UIKit
 import CoreLocation
 
-
 class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationManagerDelegate {
 
     var delegate: MessagesViewControllerDelegate?
@@ -124,8 +123,7 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
 }
 
 // MARK: UI
-extension ExpandedViewController {
-    
+extension ExpandedViewController {    
     
     private func updateUI() {
         
@@ -298,8 +296,6 @@ extension ExpandedViewController: UIPageViewControllerDelegate, UIPageViewContro
         pageViewController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         
         pageViewController.setViewControllers([pagesViewControllers.first!], direction: .forward, animated: true)
-        
-                
     }
     
     private func setPagesViewControllers() {
@@ -365,7 +361,6 @@ extension ExpandedViewController {
         present(alert, animated: true, completion:nil)
     }
     
-    
     private func checkLocationEnable() {
         if CLLocationManager.locationServicesEnabled(), CLLocationManager.significantLocationChangeMonitoringAvailable() {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -402,5 +397,4 @@ extension ExpandedViewController {
             break
         }
     }
-    
 }

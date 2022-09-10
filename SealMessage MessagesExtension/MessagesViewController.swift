@@ -15,10 +15,6 @@ protocol MessagesViewControllerDelegate {
 
 class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
         if presentationStyle == .compact {
@@ -45,7 +41,7 @@ class MessagesViewController: MSMessagesAppViewController, UITextViewDelegate {
         components.queryItems = modelMessage.queryItems
         
         let layout = MSMessageTemplateLayout()
-        layout.image = modelMessage.image
+        layout.image = UIImage(named: modelMessage.image) ?? UIImage(systemName: "nosign")
         layout.caption = modelMessage.caption
         layout.subcaption = modelMessage.subCaption
         
@@ -96,7 +92,6 @@ extension MessagesViewController {
 
         guard let controller = storyboard?.instantiateViewController(withIdentifier: String(describing: CompactViewController.self)) as? CompactViewController else {fatalError("Unable to instantiate an CompactViewController from the storyboard")}
 
-        
         controller.delegate = self
         
         return controller
@@ -108,7 +103,6 @@ extension MessagesViewController {
         
         controller.delegate = self
         controller.model = model
-        
         
         return controller
     }

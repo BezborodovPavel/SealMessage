@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 struct ModelMessage {
     
@@ -36,12 +35,8 @@ struct ModelMessage {
         }
     }
     
-    var image: UIImage {
-        if modelMessage.open {
-            return UIImage(named: "openMessage") ?? UIImage(systemName: "nosign")!
-        } else {
-            return UIImage(named: "closeMessage") ?? UIImage(systemName: "nosign")!
-        }
+    var image: String {
+        modelMessage.open ? "openMessage" : "closeMessage"
     }
     
     var queryItems: [URLQueryItem] {
