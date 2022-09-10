@@ -23,7 +23,6 @@ struct ModelMessage {
             let date = dateFormatter.string(from: dateForCaption)
             newCaptions.append("Дата вскрытия: \(date)")
         }
-        
         return newCaptions.joined(separator: ", ")
     }
     
