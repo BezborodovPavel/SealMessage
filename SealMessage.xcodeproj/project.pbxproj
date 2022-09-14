@@ -15,37 +15,12 @@
 		E122D9AE28C1DEAF0042FD35 /* ExpandedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D9AD28C1DEAF0042FD35 /* ExpandedViewController.swift */; };
 		E122D9B128C222980042FD35 /* ModelMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E122D9B028C222980042FD35 /* ModelMessage.swift */; };
 		E14575CB28CB34E900A159BB /* ModelLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14575CA28CB34E900A159BB /* ModelLocation.swift */; };
-		E17EE39F28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E17EE39E28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E17EE3A428BA1B2500FDDA58 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E17EE3A328BA1B2500FDDA58 /* Messages.framework */; };
 		E17EE3A728BA1B2600FDDA58 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17EE3A628BA1B2600FDDA58 /* MessagesViewController.swift */; };
 		E17EE3AA28BA1B2600FDDA58 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E17EE3A828BA1B2600FDDA58 /* MainInterface.storyboard */; };
 		E17EE3AC28BA1B2700FDDA58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E17EE3AB28BA1B2700FDDA58 /* Assets.xcassets */; };
 		E1820AF028BC855D003A6701 /* ModelSealMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1820AEF28BC855D003A6701 /* ModelSealMessage.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		E17EE3A028BA1B2500FDDA58 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E17EE38F28BA1B2100FDDA58 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E17EE39D28BA1B2500FDDA58;
-			remoteInfo = "SealMessage MessagesExtension";
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		E17EE3B328BA1B2700FDDA58 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				E17EE39F28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E122D99D28BDE10B0042FD35 /* DateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewController.swift; sourceTree = "<group>"; };
@@ -56,7 +31,6 @@
 		E122D9AD28C1DEAF0042FD35 /* ExpandedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandedViewController.swift; sourceTree = "<group>"; };
 		E122D9B028C222980042FD35 /* ModelMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelMessage.swift; sourceTree = "<group>"; };
 		E14575CA28CB34E900A159BB /* ModelLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLocation.swift; sourceTree = "<group>"; };
-		E17EE39528BA1B2100FDDA58 /* SealMessage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SealMessage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E17EE39828BA1B2500FDDA58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E17EE39E28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SealMessage MessagesExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E17EE3A328BA1B2500FDDA58 /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = System/Library/Frameworks/Messages.framework; sourceTree = SDKROOT; };
@@ -111,7 +85,6 @@
 		E17EE39628BA1B2100FDDA58 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E17EE39528BA1B2100FDDA58 /* SealMessage.app */,
 				E17EE39E28BA1B2500FDDA58 /* SealMessage MessagesExtension.appex */,
 			);
 			name = Products;
@@ -153,23 +126,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E17EE39428BA1B2100FDDA58 /* SealMessage */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E17EE3B428BA1B2700FDDA58 /* Build configuration list for PBXNativeTarget "SealMessage" */;
-			buildPhases = (
-				E17EE39328BA1B2100FDDA58 /* Resources */,
-				E17EE3B328BA1B2700FDDA58 /* Embed App Extensions */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E17EE3A128BA1B2500FDDA58 /* PBXTargetDependency */,
-			);
-			name = SealMessage;
-			productName = SealMessage;
-			productReference = E17EE39528BA1B2100FDDA58 /* SealMessage.app */;
-			productType = "com.apple.product-type.application.messages";
-		};
 		E17EE39D28BA1B2500FDDA58 /* SealMessage MessagesExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E17EE3B028BA1B2700FDDA58 /* Build configuration list for PBXNativeTarget "SealMessage MessagesExtension" */;
@@ -197,9 +153,6 @@
 				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
-					E17EE39428BA1B2100FDDA58 = {
-						CreatedOnToolsVersion = 13.2.1;
-					};
 					E17EE39D28BA1B2500FDDA58 = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
@@ -218,20 +171,12 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E17EE39428BA1B2100FDDA58 /* SealMessage */,
 				E17EE39D28BA1B2500FDDA58 /* SealMessage MessagesExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		E17EE39328BA1B2100FDDA58 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E17EE39C28BA1B2500FDDA58 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -262,14 +207,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E17EE3A128BA1B2500FDDA58 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E17EE39D28BA1B2500FDDA58 /* SealMessage MessagesExtension */;
-			targetProxy = E17EE3A028BA1B2500FDDA58 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E17EE3A828BA1B2600FDDA58 /* MainInterface.storyboard */ = {
@@ -415,6 +352,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для определения вашего местоположения";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для определения вашего местоположения";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для определения вашего местоположения";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -444,6 +382,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Для определения вашего местоположения";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Для определения вашего местоположения";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для определения вашего местоположения";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -453,48 +392,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "ru.bezborodov-pavel.SealMessage.MessagesExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		E17EE3B528BA1B2700FDDA58 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TQ8HSFJ569;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "ru.bezborodov-pavel.SealMessage";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		E17EE3B628BA1B2700FDDA58 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TQ8HSFJ569;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "ru.bezborodov-pavel.SealMessage";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -518,15 +415,6 @@
 			buildConfigurations = (
 				E17EE3B128BA1B2700FDDA58 /* Debug */,
 				E17EE3B228BA1B2700FDDA58 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E17EE3B428BA1B2700FDDA58 /* Build configuration list for PBXNativeTarget "SealMessage" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E17EE3B528BA1B2700FDDA58 /* Debug */,
-				E17EE3B628BA1B2700FDDA58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
