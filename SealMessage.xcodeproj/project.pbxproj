@@ -99,6 +99,16 @@
 			path = Pages;
 			sourceTree = "<group>";
 		};
+		E100F13B28D37C4A00A7C813 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E1495A6028D349F100E597A0 /* ModelLocation.swift */,
+				E1495A6228D349F100E597A0 /* ModelMessage.swift */,
+				E1495A6128D349F100E597A0 /* ModelSealMessage.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		E122D9A328BFACD70042FD35 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,9 +137,7 @@
 				E1495A6D28D34ABA00E597A0 /* ExpandedViewController.swift */,
 				E1495A5E28D349E700E597A0 /* PageViewController.swift */,
 				E1495A5C28D349D600E597A0 /* ViewController.swift */,
-				E1495A6028D349F100E597A0 /* ModelLocation.swift */,
-				E1495A6228D349F100E597A0 /* ModelMessage.swift */,
-				E1495A6128D349F100E597A0 /* ModelSealMessage.swift */,
+				E100F13B28D37C4A00A7C813 /* Model */,
 				E100F13A28D37B6F00A7C813 /* Pages */,
 				E1495A6A28D34A5700E597A0 /* MainInterface.storyboard */,
 				E164592928D1D89400AC712E /* Assets.xcassets */,
