@@ -11,7 +11,7 @@
         <!--Messages View Controller-->
         <scene sceneID="4Z5-me-87D">
             <objects>
-                <viewController id="BzL-vf-a1f" customClass="MessagesViewController" customModule="SealMessage_MessagesExtension" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="MessagesViewController" storyboardIdentifier="MessagesViewController" id="BzL-vf-a1f" customClass="MessagesViewController" customModule="SealMessage_MessagesExtension" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="C8S-d5-J9U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -48,7 +48,7 @@
                                         <rect key="frame" x="0.0" y="206.5" width="343" height="428.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Yti-pt-VdD">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="403.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="397.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Условия" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bLL-J2-5Kx">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="60"/>
@@ -60,7 +60,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3N4-oM-nqo">
-                                                        <rect key="frame" x="0.0" y="60" width="343" height="343.5"/>
+                                                        <rect key="frame" x="0.0" y="60" width="343" height="337.5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="300" id="Oqs-Pr-j8R"/>
                                                         </constraints>
@@ -72,7 +72,7 @@
                                                 </constraints>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLb-UC-wns">
-                                                <rect key="frame" x="247" y="403.5" width="96" height="25"/>
+                                                <rect key="frame" x="247" y="397.5" width="96" height="31"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Отправить"/>
                                                 <buttonConfiguration key="configuration" style="filled" title="Отправить">
