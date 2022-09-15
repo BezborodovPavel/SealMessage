@@ -1,0 +1,26 @@
+{
+  "DVTSourceControlWorkspaceBlueprintLocationsKey" : {
+    "3D14A05AEEB9BF7CAB779870463EAFFD519C938C" : {
+      "DVTSourceControlBranchIdentifierKey" : "main",
+      "DVTSourceControlLocationRevisionKey" : "8163fe6a87e6f238dead68833b4da1d331065a6c",
+      "DVTSourceControlBranchOptionsKey" : 4,
+      "DVTSourceControlBranchRemoteNameKey" : "origin",
+      "DVTSourceControlWorkspaceBlueprintLocationTypeKey" : "DVTSourceControlBranch"
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3D14A05AEEB9BF7CAB779870463EAFFD519C938C",
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "30A11C4D-686D-4958-B130-B5C99DB425D0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "3D14A05AEEB9BF7CAB779870463EAFFD519C938C" : "SealMessage\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SealMessage",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SealMessage.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/BezborodovPavel\/SealMessage.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3D14A05AEEB9BF7CAB779870463EAFFD519C938C"
+    }
+  ]
+}
