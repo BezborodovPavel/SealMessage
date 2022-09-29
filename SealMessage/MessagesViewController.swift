@@ -36,7 +36,8 @@ class MessagesViewController: UIViewController, UITextViewDelegate, MFMessageCom
         
         let message = MSMessage(session: MSSession())
         
-        guard let url = components.url else {fatalError("Не удалось сформировать URL для отправки сообщения")}
+        guard let url = components.url else {
+            fatalError("Не удалось сформировать URL для отправки сообщения")}
         message.url = url
         message.layout = layout
         
@@ -92,22 +93,24 @@ extension MessagesViewController: MessagesViewControllerDelegate {
         
         if needSend {
             
-            guard MFMessageComposeViewController.canSendText() else {return}
+            guard MFMessageComposeViewController.canSendText() else {
+                showAlert(with: "MFMessageComposeViewController - can not send text")
+                return}
             
-            guard let model = controller.model else { fatalError("Expected the controller to be displaying an model message") }
-            
+            guard let model = controller.model else {
+                showAlert(with: "Expected the controller to be displaying an model message")
+                fatalError("Expected the controller to be displaying an model message") }
             model.didSend = true
             
             let message = composeMessage(with: model)
-            
+
             let composeVC = MFMessageComposeViewController()
             
             composeVC.messageComposeDelegate = self
 
             composeVC.message = message
-
-            self.present(composeVC, animated: true)
-            
+        
+            controller.present(composeVC, animated: true)
        }
         
         dismiss(animated: true)
@@ -116,4 +119,15 @@ extension MessagesViewController: MessagesViewControllerDelegate {
     func expandedVC() {
         presentViewController()
     }
-}
+    
+    private func showAlert(with text: String) {
+        
+        let alertVC = UIAlertController(title: "Ошибка", message: text, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Закрыть", style: .cancel) { _ in
+                self.dismiss(animated: true)
+        }
+        alertVC.addAction(action)
+        show(alertVC, sender: self)
+        
+    }
+ }

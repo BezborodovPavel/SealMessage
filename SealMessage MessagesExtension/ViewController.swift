@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  SealMessage MessagesExtension
 //
-//  Created by Павел on 02.09.2022.
+//  Created by Павел on 02.09.2022.q
 //
 
 import UIKit

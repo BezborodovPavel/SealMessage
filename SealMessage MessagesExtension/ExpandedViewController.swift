@@ -120,6 +120,26 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
         
         RunLoop.current.add(timer, forMode: .default)
     }
+    
+    private func animatePages() {
+        guard let firstView = self.pagesViewControllers[0].view else {return}
+        guard let secondView = self.pagesViewControllers[1].view else {return}
+        firstView.addSubview(secondView)
+        secondView.frame = firstView.bounds
+        secondView.center.y = firstView.center.y
+        secondView.center.x = firstView.center.x + firstView.frame.width
+        UIView.animate(withDuration: 0.3, delay: 5, options: [.curveLinear]) {
+            firstView.center.x -= 15
+            secondView.center.x -= 15
+        } completion: { _ in
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseOut]) {
+                firstView.center.x += 15
+                secondView.center.x += 15
+            } completion: { _ in
+                secondView.removeFromSuperview()
+            }
+        }
+    }
 }
 
 // MARK: UI
@@ -289,7 +309,6 @@ extension ExpandedViewController: UIPageViewControllerDelegate, UIPageViewContro
         
         pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(pageViewController.view)
-        
         pageViewController.view.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
         pageViewController.view.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         pageViewController.view.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
@@ -379,6 +398,7 @@ extension ExpandedViewController {
             }
         }
         locationManager.stopUpdatingLocation()
+        animatePages()
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
