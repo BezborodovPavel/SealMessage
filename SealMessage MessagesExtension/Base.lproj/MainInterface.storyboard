@@ -200,7 +200,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mappin.and.ellipse" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="e75-MN-sVq">
-                                <rect key="frame" x="162.5" y="308" width="50" height="50.5"/>
+                                <rect key="frame" x="162.5" y="308.5" width="50" height="50"/>
                                 <color key="tintColor" red="0.99828594920000002" green="0.73674923179999996" blue="0.34164190290000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="BNf-BO-lvf"/>

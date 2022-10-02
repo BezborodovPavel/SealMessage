@@ -94,11 +94,9 @@ extension MessagesViewController: MessagesViewControllerDelegate {
         if needSend {
             
             guard MFMessageComposeViewController.canSendText() else {
-                showAlert(with: "MFMessageComposeViewController - can not send text")
-                return}
+                fatalError("MFMessageComposeViewController can not send text") }
             
             guard let model = controller.model else {
-                showAlert(with: "Expected the controller to be displaying an model message")
                 fatalError("Expected the controller to be displaying an model message") }
             model.didSend = true
             
@@ -106,14 +104,19 @@ extension MessagesViewController: MessagesViewControllerDelegate {
 
             let composeVC = MFMessageComposeViewController()
             
+            composeVC.messageComposeDelegate = controller
+            
             composeVC.messageComposeDelegate = self
 
             composeVC.message = message
+            
+            controller.model = ModelSealMessage()
         
             controller.present(composeVC, animated: true)
        }
         
-        dismiss(animated: true)
+//        controller.dismiss(animated: true)
+
     }
     
     func expandedVC() {

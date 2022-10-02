@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import MessageUI
 
 class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationManagerDelegate {
 
@@ -59,6 +60,9 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     @IBAction func sendButtonPress() {
         delegate?.sendMessage(from: self, needSend: needSend)
+        setupUI()
+        updateUI()
+        setupPageViewController()
     }
     
     private func getStringCondition() -> String {
@@ -128,7 +132,7 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
         secondView.frame = firstView.bounds
         secondView.center.y = firstView.center.y
         secondView.center.x = firstView.center.x + firstView.frame.width
-        UIView.animate(withDuration: 0.3, delay: 5, options: [.curveLinear]) {
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveLinear]) {
             firstView.center.x -= 15
             secondView.center.x -= 15
         } completion: { _ in
@@ -275,6 +279,18 @@ extension ExpandedViewController {
     }
 }
 
+// MARK: MFMessgaeComposeDelegate
+
+extension ExpandedViewController: MFMessageComposeViewControllerDelegate {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        if result == .sent {
+            model = ModelSealMessage()
+            updateUI()
+            setupUI()
+        }
+    }
+}
+
 // MARK: UITextViewDelegate
 extension ExpandedViewController {
         
@@ -398,7 +414,11 @@ extension ExpandedViewController {
             }
         }
         locationManager.stopUpdatingLocation()
-        animatePages()
+        
+        let timer = Timer.init(timeInterval: 5, repeats: false) { _ in
+            self.animatePages()
+        }
+        RunLoop.current.add(timer, forMode: .default)
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
