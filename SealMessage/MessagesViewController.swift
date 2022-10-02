@@ -105,8 +105,6 @@ extension MessagesViewController: MessagesViewControllerDelegate {
             let composeVC = MFMessageComposeViewController()
             
             composeVC.messageComposeDelegate = controller
-            
-            composeVC.messageComposeDelegate = self
 
             composeVC.message = message
             
@@ -114,8 +112,6 @@ extension MessagesViewController: MessagesViewControllerDelegate {
         
             controller.present(composeVC, animated: true)
        }
-        
-//        controller.dismiss(animated: true)
 
     }
     

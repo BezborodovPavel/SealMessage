@@ -36,9 +36,7 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
             modelReceivdedOpened = true
         }
         
-        setupUI()
-        updateUI()
-        setupPageViewController()
+        prepareUI()
         
         DispatchQueue.main.async {
             self.locationManager = CLLocationManager()
@@ -60,9 +58,6 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     @IBAction func sendButtonPress() {
         delegate?.sendMessage(from: self, needSend: needSend)
-        setupUI()
-        updateUI()
-        setupPageViewController()
     }
     
     private func getStringCondition() -> String {
@@ -147,7 +142,13 @@ class ExpandedViewController: UIViewController, UITextViewDelegate, CLLocationMa
 }
 
 // MARK: UI
-extension ExpandedViewController {    
+extension ExpandedViewController {
+    
+    private func prepareUI() {
+        setupUI()
+        updateUI()
+        setupPageViewController()
+    }
     
     private func updateUI() {
         
@@ -283,10 +284,11 @@ extension ExpandedViewController {
 
 extension ExpandedViewController: MFMessageComposeViewControllerDelegate {
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        if result == .sent {
-            model = ModelSealMessage()
-            updateUI()
-            setupUI()
+        controller.dismiss(animated: true) {
+            if result == .sent {
+                self.model = ModelSealMessage()
+                self.prepareUI()
+            }
         }
     }
 }
